@@ -1,0 +1,91 @@
+erDiagram
+    Client {
+        int client_id PK
+        string first_name
+        string middle_name
+        string last_name
+        string maternal_surname
+        string gender
+        date birth_date
+        string email
+        string phone_number
+        string street_address
+        string municipality
+        string department
+        string country_code FK
+    }
+
+    Country {
+        string country_code PK
+        string name
+        string currency
+        int region_id FK
+    }
+
+    Region {
+        int region_id PK
+        string name
+    }
+
+    IssuerEntity {
+        int issuer_entity_id PK
+        string name
+        string operation_country FK
+        string bank_code
+        string contact_phone
+        boolean international_op
+    }
+
+    Franchise {
+        string franchise_name PK
+        int issuer_entity_id FK
+        string country_code FK
+    }
+
+    CreditCard {
+        string card_number PK
+        date issue_date
+        date expiration_date
+        string status
+        string franchise_name FK
+        int client_id FK
+    }
+
+    CommercialLocation {
+        int location_id PK
+        string name
+        string category
+        string city
+        string country_code FK
+        float latitude
+        float longitude
+    }
+
+    PaymentMethod {
+        int method_id PK
+        string name
+    }
+
+    Transaction {
+        int transaction_id PK
+        float amount
+        string currency
+        datetime datetime
+        string channel
+        string status
+        string device_type
+        string card_number FK
+        int location_id FK
+        int method_id FK
+    }
+
+    %% RELATIONSHIPS
+    Client ||--o{ CreditCard : "owns"
+    Client }o--|| Country : "resides in"
+    Country }o--|| Region : "belongs to"
+    Franchise }o--|| Country : "origin"
+    Franchise }o--|| IssuerEntity : "issued by"
+    CreditCard }o--|| Franchise : "uses"
+    CreditCard ||--o{ Transaction : "executes"
+    Transaction }o--|| CommercialLocation : "occurs at"
+    Transaction }o--|| PaymentMethod : "uses"
