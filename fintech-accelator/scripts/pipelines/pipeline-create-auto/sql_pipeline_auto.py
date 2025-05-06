@@ -23,8 +23,8 @@ def parse_arguments():
     
     parser.add_argument('--host', default='localhost', 
                         help='PostgreSQL host (default: localhost)')
-    parser.add_argument('--port', default=5433, type=int,
-                        help='PostgreSQL port (default: 5433)')
+    parser.add_argument('--port', default=5432, type=int,
+                        help='PostgreSQL port (default: 5432)')
     parser.add_argument('--user', required=True,
                         help='PostgreSQL username')
     parser.add_argument('--password', required=True,
