@@ -34,7 +34,7 @@ INSERT INTO fintech.countries (country_code, name, currency, region_id) VALUES (
 INSERT INTO fintech.countries (country_code, name, currency, region_id) VALUES ('MU', 'Mauritius', 'MUR', 1);
 INSERT INTO fintech.countries (country_code, name, currency, region_id) VALUES ('MA', 'Morocco', 'MAD', 1);
 INSERT INTO fintech.countries (country_code, name, currency, region_id) VALUES ('MZ', 'Mozambique', 'MZN', 1);
-INSERT INTO fintech.countries (country_code, name, currency, region_id) VALUES ('nan', 'Namibia', 'NAD', 1);
+INSERT INTO fintech.countries (country_code, name, currency, region_id) VALUES ('NA', 'Namibia', 'NAD', 1);
 INSERT INTO fintech.countries (country_code, name, currency, region_id) VALUES ('NE', 'Niger', 'XOF', 1);
 INSERT INTO fintech.countries (country_code, name, currency, region_id) VALUES ('NG', 'Nigeria', 'NGN', 1);
 INSERT INTO fintech.countries (country_code, name, currency, region_id) VALUES ('RW', 'Rwanda', 'RWF', 1);
@@ -184,7 +184,7 @@ INSERT INTO fintech.countries (country_code, name, currency, region_id) VALUES (
 INSERT INTO fintech.countries (country_code, name, currency, region_id) VALUES ('CH', 'Switzerland', 'CHF', 5);
 INSERT INTO fintech.countries (country_code, name, currency, region_id) VALUES ('UA', 'Ukraine', 'UAH', 5);
 INSERT INTO fintech.countries (country_code, name, currency, region_id) VALUES ('GB', 'United Kingdom', 'GBP', 5);
-INSERT INTO fintech.countries (country_code, name, currency, region_id) VALUES ('AQ', 'Antarctica', 'nan', 6);
+INSERT INTO fintech.countries (country_code, name, currency, region_id) VALUES ('AQ', 'Antarctica', 'NAN', 6);
 INSERT INTO fintech.countries (country_code, name, currency, region_id) VALUES ('AS', 'American Samoa', 'USD', 6);
 INSERT INTO fintech.countries (country_code, name, currency, region_id) VALUES ('IO', 'British Indian Ocean Territory', 'USD', 6);
 INSERT INTO fintech.countries (country_code, name, currency, region_id) VALUES ('FJ', 'Fiji', 'FJD', 6);
