@@ -54,11 +54,11 @@ def convert_to_bulk_insert(batch_size):
     
     FILES_SQL = [
         '04-FINTECH-CLIENTS.sql',
-        '05-FINTECH-ISSUERS.sql',
-        '06-FINTECH-FRANCHISES.sql',
-        '07-FINTECH-MERCHANT_LOCATIONS.sql',
-        '08-FINTECH-CREDIT_CARDS.sql',
-        '09-FINTECH-TRANSACTIONS.sql'
+        #'05-FINTECH-ISSUERS.sql',
+        #'06-FINTECH-FRANCHISES.sql',
+        #'07-FINTECH-MERCHANT_LOCATIONS.sql',
+        #'08-FINTECH-CREDIT_CARDS.sql',
+        #'09-FINTECH-TRANSACTIONS.sql'
     ]
     
     print("Starting SQL files processing...")

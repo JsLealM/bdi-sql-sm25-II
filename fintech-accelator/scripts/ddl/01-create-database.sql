@@ -1,5 +1,5 @@
 -- 01. Create user
-CREATE USER fc_admin WITH PASSWORD '**********';
+CREATE USER fc_admin WITH PASSWORD 'Keira2022';
 -- 02. Create database (with ENCODING= 'UTF8', TEMPLATE=Template 0, OWNER: fc_admin)
 CREATE DATABASE fintech_cards WITH ENCODING='UTF8' LC_COLLATE='es_CO.UTF-8' LC_CTYPE='es_CO.UTF-8' TEMPLATE=template0 OWNER = fc_admin;
 -- 03. Grant privileges
