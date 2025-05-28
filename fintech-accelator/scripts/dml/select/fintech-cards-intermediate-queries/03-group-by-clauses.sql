@@ -52,22 +52,24 @@ filtrado para tasas superiores al 5% con mínimo 100 intentos de transacción.
 SELECT 
 fc.name AS franquicia,
 co.name AS pais,
-(COUNT(tr2.transaction_id) * 100.0 / COUNT(tr1.transaction_id)) || '%' AS porcentaje_rechazo
+ROUND((
+(SELECT COUNT(*) 
+FROM fintech.transactions tr2 
+INNER JOIN fintech.credit_cards cc2 ON tr2.card_id = cc2.card_id
+WHERE cc2.franchise_id = fc.franchise_id AND tr2.status = 'Rejected') * 100.0 
+/ COUNT(tr.transaction_id)), 2) || '%' AS porcentaje_rechazo,
+COUNT(tr.transaction_id) AS total_transacciones
 FROM fintech.franchises fc
-INNER JOIN fintech.countries co 
-ON fc.country_code = co.country_code
-INNER JOIN fintech.credit_cards cc 
-ON fc.franchise_id = cc.franchise_id
-INNER JOIN fintech.transactions tr1 
-ON cc.card_id = tr1.card_id
-LEFT JOIN fintech.transactions tr2 
-ON tr1.transaction_id = tr2.transaction_id AND tr2.status = 'Rejected'
-GROUP BY fc.name, co.name
-HAVING 
-COUNT(tr1.transaction_id) >= 100
-AND (COUNT(tr2.transaction_id) * 1.0 / COUNT(tr1.transaction_id)) > 0.05;
-
-
+INNER JOIN fintech.countries co ON fc.country_code = co.country_code
+INNER JOIN fintech.credit_cards cc ON fc.franchise_id = cc.franchise_id
+INNER JOIN fintech.transactions tr ON cc.card_id = tr.card_id
+GROUP BY fc.franchise_id, fc.name, co.name
+HAVING COUNT(tr.transaction_id) >= 100
+AND ((SELECT COUNT(*) 
+FROM fintech.transactions tr2 
+INNER JOIN fintech.credit_cards cc2 ON tr2.card_id = cc2.card_id
+WHERE cc2.franchise_id = fc.franchise_id AND tr2.status = 'Rejected') * 100.0 
+/ COUNT(tr.transaction_id)) > 5;
 
 /**
 4. Distribución Geográfica del Método de Pago:
@@ -80,19 +82,20 @@ SELECT
 pay.name AS metodo_pago,
 ml.city AS ciudad,
 co.name AS pais,
-COUNT(tr1.transaction_id) AS volumen_transacciones,
-(COUNT(tr1.transaction_id) * 100.0 / COUNT(tr2.transaction_id)) || '%' AS porcentaje
+COUNT(tr.transaction_id) AS volumen_transacciones,
+ROUND(
+COUNT(tr.transaction_id) * 100.0 / (SELECT COUNT(*) 
+FROM fintech.transactions tr2
+WHERE tr2.location_id = ml.location_id), 2) || '%' AS porcentaje
 FROM fintech.payment_methods pay
-INNER JOIN fintech.transactions tr1 
-ON pay.method_id = tr1.method_id
-INNER JOIN fintech.merchant_locations ml 
-ON tr1.location_id = ml.location_id
-INNER JOIN fintech.countries co 
-ON ml.country_code = co.country_code
-INNER JOIN fintech.transactions tr2 
-ON tr2.location_id = ml.location_id
-GROUP BY pay.name, ml.city, co.name
-HAVING (COUNT(tr1.transaction_id) * 1.0 / COUNT(tr2.transaction_id)) > 0.20;
+INNER JOIN fintech.transactions tr ON pay.method_id = tr.method_id
+INNER JOIN fintech.merchant_locations ml ON tr.location_id = ml.location_id
+INNER JOIN fintech.countries co ON ml.country_code = co.country_code
+GROUP BY pay.name, ml.city, co.name, ml.location_id
+HAVING (COUNT(tr.transaction_id) * 100.0 / (SELECT COUNT(*) 
+FROM fintech.transactions tr2
+WHERE tr2.location_id = ml.location_id)) > 20
+LIMIT 10;
 /**
 5. Análisis de Patrones de Gasto Demográfico:
 Evalúe el comportamiento de compra en demografías de género y edad,
